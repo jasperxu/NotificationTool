@@ -1,0 +1,60 @@
+﻿[
+  {
+    "text": "显示",
+    "cmd": "start http://localhost:8888"
+  },
+  {
+    "cmdkey": "-"
+  },
+  {
+    "text": "开机启动",
+    "cmd": "main", // 用于自动启动的Key需保持操作系统唯一。
+    //"image": "ok.png",
+    "cmdkey": "AutoRun"
+  },
+  {
+    "cmdkey": "-"
+  },
+  {
+    "text": "启动",
+    "cmd": "main.exe",
+    //"image": "start.png",
+    //"icon": "",
+    "cmdkey": "Start"
+  },
+  {
+    "text": "停止",
+    //"image": "stop.png",
+    //"icon": "",
+    "cmdkey": "Stop"
+  },
+  {
+    "text": "重启",
+    //"image": "restart.png",
+    //"icon": "",
+    "cmdkey": "Restart"
+  },
+  {
+    "cmdkey": "-"
+  },
+  {
+    "text": "设置",
+    "cmd": "start http://localhost:8888/setting"
+  },
+  {
+    "text": "帮助",
+    "cmd": "start http://localhost:8888/help"
+  },
+  {
+    "text": "关于",
+    "cmd": "start http://localhost:8888/about"
+  },
+  {
+    "cmdkey": "-"
+  },
+  {
+    // cmd内容为点击退出时弹出的提示。
+    "text": "退出|确认需要退出此程序？",
+    "cmdkey": "Exit"
+  }
+]
