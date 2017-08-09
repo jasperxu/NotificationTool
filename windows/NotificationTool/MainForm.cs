@@ -119,16 +119,6 @@ namespace NotificationTool
 
         }
 
-        private Icon GetIcon(string resourceName)
-        {
-            return new Icon(GetStream(resourceName));
-        }
-
-        private Image GetImage(string resourceName)
-        {
-            return Image.FromStream(GetStream(resourceName));
-        }
-
         private Stream GetStream(string resourceName)
         {
             var _namespace = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Namespace;
@@ -140,6 +130,10 @@ namespace NotificationTool
         private void MainForm_Load(object sender, EventArgs e)
         {
             // 设置窗体图标和提示图标的默认值
+            if (File.Exists("notification.tool.ico"))
+            {
+                DefaultIcon = new Icon("notification.tool.ico");
+            }
             this.Icon = DefaultIcon;
             this.notifyIcon.Icon = DefaultIcon;
 
@@ -221,10 +215,7 @@ namespace NotificationTool
             AutoRunMenu = new System.Windows.Forms.ToolStripMenuItem();
             AppKey = item.CMD;
             AutoRunMenu.Text = item.Text;
-            if (!String.IsNullOrEmpty(item.Image))
-                AutoRunMenu.Image = Bitmap.FromFile(item.Image);
-            else
-                AutoRunMenu.Image = OkImage;
+            AutoRunMenu.Image = OkImage;
 
             return AutoRunMenu;
         }
