@@ -7,7 +7,7 @@ Currently supports `Windows`, need to install`. Net Framework 4.0` or later.
 
 ##  Simple example
 
-![demo](C:\Users\Jasper\Desktop\demo.png)
+![demo](demo.png)
 
 Configuration file `notification.tool.config.json` contents:
 
@@ -119,7 +119,7 @@ NotificationTool 是让你的程序运行到系统Notification 的小工具。
 
 
 
-![demo](C:\Users\Jasper\Desktop\demo.png)
+![demo](demo.png)
 
 配置文件`notification.tool.config.json` 的内容：
 
