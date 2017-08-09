@@ -14,6 +14,7 @@ namespace NotificationTool
 {
     public partial class MainForm : Form
     {
+        string ExePath = System.Windows.Forms.Application.StartupPath;
         string ConfigFile = "notification.tool.config.json";// 配置文件名称
         string ErrorFileName = "notification.tool.error.log";
         string OutputFileName = "notification.tool.output.log";
@@ -32,8 +33,40 @@ namespace NotificationTool
         public MainForm()
         {
             InitializeComponent();
+            TestPath();
+            System.Environment.CurrentDirectory = ExePath;
             InitAllProcess();
             SetImageIcon();
+        }
+
+        private void TestPath()
+        {
+            //获取模块的完整路径。  
+            string path1 = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+            //获取和设置当前目录(该进程从中启动的目录)的完全限定目录  
+            string path2 = System.Environment.CurrentDirectory;
+            //获取应用程序的当前工作目录  
+            string path3 = System.IO.Directory.GetCurrentDirectory();
+            //获取程序的基目录  
+            string path4 = System.AppDomain.CurrentDomain.BaseDirectory;
+            //获取和设置包括该应用程序的目录的名称  
+            string path5 = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            //获取启动了应用程序的可执行文件的路径  
+            string path6 = System.Windows.Forms.Application.StartupPath;
+            //获取启动了应用程序的可执行文件的路径及文件名  
+            string path7 = System.Windows.Forms.Application.ExecutablePath;
+
+            StringBuilder str = new StringBuilder();
+            str.AppendLine("System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName:" + path1);
+            str.AppendLine("System.Environment.CurrentDirectory:" + path2);
+            str.AppendLine("System.IO.Directory.GetCurrentDirectory():" + path3);
+            str.AppendLine("System.AppDomain.CurrentDomain.BaseDirectory:" + path4);
+            str.AppendLine("System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase:" + path5);
+            str.AppendLine("System.Windows.Forms.Application.StartupPath:" + path6);
+            str.AppendLine("System.Windows.Forms.Application.ExecutablePath:" + path7);
+            string allPath = str.ToString();
+
+            // MessageBox.Show(allPath);
         }
 
         private void InitAllProcess()
@@ -41,7 +74,8 @@ namespace NotificationTool
             InitProcess(out MainProcess);
             InitProcess(out TempProcess);
 
-            MainProcess.Exited += (sender, e) => {
+            MainProcess.Exited += (sender, e) =>
+            {
                 var ErrorFile = File.Open(ErrorFileName, FileMode.Append);
                 var ErrorFileStream = new StreamWriter(ErrorFile);
                 ErrorFileStream.Write(MainProcess.StandardError.ReadToEnd());
@@ -61,12 +95,12 @@ namespace NotificationTool
         {
             p = new Process();
             p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Domain = System.Environment.CurrentDirectory;
+            p.StartInfo.Domain = ExePath;
             p.StartInfo.UseShellExecute = false;        //是否使用操作系统shell启动
             p.StartInfo.RedirectStandardInput = true;   //接受来自调用程序的输入信息
             p.StartInfo.RedirectStandardOutput = true;  //由调用程序获取输出信息
             p.StartInfo.RedirectStandardError = true;   //重定向标准错误输出
-            p.StartInfo.CreateNoWindow = false;         //不显示程序窗口
+            p.StartInfo.CreateNoWindow = true;         //不显示程序窗口
 
             p.EnableRaisingEvents = true;               //启用Exited事件
         }
@@ -354,8 +388,8 @@ namespace NotificationTool
         private bool CheckAutoRun()
         {
             bool isautorun = false;
-            string path = Application.ExecutablePath;
-           // RegistryKey rk = Registry.LocalMachine;
+            string path = System.Windows.Forms.Application.ExecutablePath;
+            // RegistryKey rk = Registry.LocalMachine;
             RegistryKey rk = Registry.CurrentUser;
             RegistryKey rk2 = rk.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
             var rks = rk2.GetValue(AppKey);
@@ -368,7 +402,7 @@ namespace NotificationTool
 
         private void SetAutoRun()
         {
-            string path = Application.ExecutablePath;
+            string path = System.Windows.Forms.Application.ExecutablePath;
             // RegistryKey rk = Registry.LocalMachine;
             RegistryKey rk = Registry.CurrentUser;
             RegistryKey rk2 = rk.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
@@ -380,7 +414,7 @@ namespace NotificationTool
 
         private void SetNotAutoRun()
         {
-            string path = Application.ExecutablePath;
+            string path = System.Windows.Forms.Application.ExecutablePath;
             // RegistryKey rk = Registry.LocalMachine;
             RegistryKey rk = Registry.CurrentUser;
             RegistryKey rk2 = rk.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
